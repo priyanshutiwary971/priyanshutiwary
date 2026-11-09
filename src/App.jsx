@@ -100,7 +100,21 @@ function PortfolioContent() {
   return <div className="portfolio-content" dangerouslySetInnerHTML={{ __html: siteMarkup }} />;
 }
 
+function IntroOverlay() {
+  const [visible, setVisible] = useState(true);
+  useEffect(() => {
+    const timer = window.setTimeout(() => setVisible(false), 1050);
+    return () => window.clearTimeout(timer);
+  }, []);
+  return visible ? <div className="intro-overlay" aria-label="Priyanshu Tiwari"><div className="intro-overlay-inner"><img src="/priyanshu-profile.jpg" alt="" /><p>Priyanshu <em>Tiwari</em></p><span className="intro-rule" /></div></div> : null;
+}
+
+function MusicPlayer() {
+  const [playing, setPlaying] = useState(false);
+  return <aside className="music-player" aria-label="Music player demo"><button type="button" className="music-toggle" aria-label={playing ? 'Pause demo music' : 'Play demo music'} onClick={() => setPlaying((value) => !value)}><span aria-hidden="true">{playing ? 'Ⅱ' : '▶'}</span></button><div className="music-info"><strong>{playing ? 'Demo track' : 'Your soundtrack'}</strong><span>{playing ? 'Preview mode · MP3 coming soon' : 'Track coming soon'}</span></div><span className={`music-eq ${playing ? 'is-playing' : ''}`} aria-hidden="true"><i /><i /><i /><i /></span></aside>;
+}
+
 export default function App() {
   useEffect(() => { document.documentElement.dataset.theme = 'dark'; }, []);
-  return <><AuroraBackground /><FadeContent /><PointerEffects /><PortfolioContent /></>;
+  return <><AuroraBackground /><FadeContent /><PointerEffects /><PortfolioContent /><IntroOverlay /><MusicPlayer /></>;
 }
