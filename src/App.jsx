@@ -1,6 +1,28 @@
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { siteMarkup } from './site-markup.js';
 import LiquidChrome from './LiquidChrome.jsx';
+import CardNav from './CardNav.jsx';
+
+const navItems = [
+  { label: 'Selected work', description: 'A selection of short-form, long-form and music video edits.', bgColor: '#27241f', textColor: '#f6f0e6', links: [{ label: 'Explore the portfolio', href: '#work' }] },
+  { label: 'Services', description: 'Editing shaped around the story, the platform and the beat.', bgColor: '#302920', textColor: '#f6f0e6', links: [{ label: 'View services', href: '#services' }] },
+  { label: 'About', description: 'Four years of thoughtful cuts and visual storytelling.', bgColor: '#24272b', textColor: '#f6f0e6', links: [{ label: 'Meet Priyanshu', href: '#about' }] },
+  { label: 'Contact', description: 'Have a project in mind? Let’s talk about it.', bgColor: '#292923', textColor: '#f6f0e6', links: [{ label: 'Get in touch', href: '#contact' }] }
+];
+
+function CardNavMount() {
+  const [mount, setMount] = useState(null);
+  const [theme, setTheme] = useState('dark');
+  useEffect(() => {
+    setMount(document.getElementById('card-nav-root'));
+    const syncTheme = () => setTheme(document.documentElement.dataset.theme === 'light' ? 'light' : 'dark');
+    document.addEventListener('themechange', syncTheme);
+    return () => document.removeEventListener('themechange', syncTheme);
+  }, []);
+  if (!mount) return null;
+  return createPortal(<CardNav logo="PT — PRIYANSHU TIWARY" logoAlt="Priyanshu Tiwary home" logoHref="#top" items={navItems} cta={{ label: 'Book a Meeting', href: '#contact' }} theme={theme} surface="glass" openOn="click" cardEffect="rise" accentColor="#c59d6a" cardHeight={164} maxWidth={860} intro speed={1.1} ariaLabel="Main navigation" />, mount);
+}
 
 /** React Bits inspired soft aurora ambient layer tuned to the ivory/blue reference. */
 function AuroraBackground() {
@@ -58,6 +80,7 @@ function PointerEffects() {
         document.documentElement.style.setProperty('--theme-y', `${event.clientY}px`);
         const apply = () => {
           document.documentElement.dataset.theme = light ? 'light' : 'dark';
+          document.dispatchEvent(new Event('themechange'));
           themeButton.setAttribute('aria-pressed', String(light));
           themeButton.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
           themeButton.querySelector('.theme-label').textContent = light ? 'Dark mode' : 'Light mode';
@@ -66,19 +89,10 @@ function PointerEffects() {
         else apply();
         return;
       }
-      const button = event.target.closest('.menu-toggle');
-      if (!button) return;
-      const nav = document.querySelector('#primary-nav');
-      const isOpen = button.getAttribute('aria-expanded') === 'true';
-      button.setAttribute('aria-expanded', String(!isOpen));
-      button.setAttribute('aria-label', isOpen ? 'Open navigation' : 'Close navigation');
-      nav?.classList.toggle('is-open', !isOpen);
+      return;
     };
     const onNavClick = (event) => {
-      if (!event.target.closest('#primary-nav a')) return;
-      document.querySelector('.menu-toggle')?.setAttribute('aria-expanded', 'false');
-      document.querySelector('.menu-toggle')?.setAttribute('aria-label', 'Open navigation');
-      document.querySelector('#primary-nav')?.classList.remove('is-open');
+      if (!event.target.closest('.card-nav a')) return;
     };
     document.addEventListener('pointermove', onPointerMove);
     document.addEventListener('pointerout', resetMagnet);
@@ -117,5 +131,5 @@ function MusicPlayer() {
 
 export default function App() {
   useEffect(() => { document.documentElement.dataset.theme = 'dark'; }, []);
-  return <><div className="liquid-background" aria-hidden="true"><LiquidChrome color="#003fa5" speed={0.2} amplitude={0.3} frequencyX={3} frequencyY={3} detail={4} thickness={1} depth={1} roughness={0.3} exposure={1} interactive rippleStrength={1} rippleSize={1} tilt={1} intro lightMode={false} maxDevicePixelRatio={1.5} /></div><FadeContent /><PointerEffects /><PortfolioContent /><IntroOverlay /><MusicPlayer /></>;
+  return <><div className="liquid-background" aria-hidden="true"><LiquidChrome color="#003fa5" speed={0.2} amplitude={0.3} frequencyX={3} frequencyY={3} detail={4} thickness={1} depth={1} roughness={0.3} exposure={1} interactive rippleStrength={1} rippleSize={1} tilt={1} intro lightMode={false} maxDevicePixelRatio={1.5} /></div><FadeContent /><PointerEffects /><PortfolioContent /><CardNavMount /><IntroOverlay /><MusicPlayer /></>;
 }
