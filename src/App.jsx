@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { siteMarkup } from './site-markup.js';
 
 /** React Bits inspired soft aurora ambient layer tuned to the ivory/blue reference. */
@@ -50,6 +50,21 @@ function PointerEffects() {
       if (link) { link.style.setProperty('--magnet-x', '0px'); link.style.setProperty('--magnet-y', '0px'); }
     };
     const onClick = (event) => {
+      const themeButton = event.target.closest('.theme-toggle');
+      if (themeButton) {
+        const light = document.documentElement.dataset.theme !== 'light';
+        document.documentElement.style.setProperty('--theme-x', `${event.clientX}px`);
+        document.documentElement.style.setProperty('--theme-y', `${event.clientY}px`);
+        const apply = () => {
+          document.documentElement.dataset.theme = light ? 'light' : 'dark';
+          themeButton.setAttribute('aria-pressed', String(light));
+          themeButton.setAttribute('aria-label', light ? 'Switch to dark theme' : 'Switch to light theme');
+          themeButton.querySelector('.theme-label').textContent = light ? 'Dark mode' : 'Light mode';
+        };
+        if (document.startViewTransition && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(apply);
+        else apply();
+        return;
+      }
       const button = event.target.closest('.menu-toggle');
       if (!button) return;
       const nav = document.querySelector('#primary-nav');
@@ -86,5 +101,6 @@ function PortfolioContent() {
 }
 
 export default function App() {
+  useEffect(() => { document.documentElement.dataset.theme = 'dark'; }, []);
   return <><AuroraBackground /><FadeContent /><PointerEffects /><PortfolioContent /></>;
 }
