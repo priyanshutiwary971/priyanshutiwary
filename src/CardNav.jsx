@@ -410,6 +410,11 @@ const CardNav = ({
       target,
       {
         className: wide ? CTA_WIDE : CTA,
+        target: target.target,
+        rel: target.rel,
+        'data-cal-namespace': target.calNamespace,
+        'data-cal-link': target.calLink,
+        'data-cal-config': target.calConfig,
         tabIndex: wide && !open ? -1 : undefined,
         onClick: event => {
           target.onClick?.(event);
