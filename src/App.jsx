@@ -106,7 +106,7 @@ function IntroOverlay() {
     const timer = window.setTimeout(() => setVisible(false), 1050);
     return () => window.clearTimeout(timer);
   }, []);
-  return visible ? <div className="intro-overlay" aria-label="Priyanshu Tiwari"><div className="intro-overlay-inner"><img src="/priyanshu-profile.jpg" alt="" /><p>Priyanshu <em>Tiwari</em></p><span className="intro-rule" /></div></div> : null;
+  return visible ? <div className="intro-overlay" aria-label="Priyanshu Tiwary"><div className="intro-overlay-inner"><img src="/priyanshu-profile.jpg" alt="" /><p>Priyanshu <em>Tiwary</em></p><span className="intro-rule" /></div></div> : null;
 }
 
 function MusicPlayer() {
