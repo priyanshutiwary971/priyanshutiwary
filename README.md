@@ -1,4 +1,4 @@
-# Priyanshu Tiwary — Rhymeforge Studios
+# Priyanshu Tiwari — Video Editor
 
 A responsive portfolio built with React and Vite, with an editorial aesthetic inspired by the supplied reference. Its first pass uses CSS-based film-frame artwork instead of an unapproved portrait or client project.
 
