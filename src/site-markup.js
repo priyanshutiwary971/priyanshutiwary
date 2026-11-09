@@ -1,10 +1,8 @@
 export const siteMarkup = String.raw`
 <div class="ambient-frame">
   <header class="site-header" id="top">
-    <a class="wordmark" href="#top" aria-label="Priyanshu Tiwary, home"><span class="mark">PT</span><span>Priyanshu Tiwary</span></a>
-    <button class="menu-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open navigation"><span></span><span></span></button>
-    <nav id="primary-nav" class="nav-links" aria-label="Main navigation"><a href="#work">Selected work</a><a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
-    <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☼</span><span class="theme-label">Light mode</span></button><a class="header-cta" href="#contact">Start a project <span aria-hidden="true">↗</span></a>
+    <div id="card-nav-root"></div>
+    <button class="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☼</span><span class="theme-label">Light mode</span></button>
   </header>
   <main>
     <section class="hero" aria-labelledby="hero-title">
