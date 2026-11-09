@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { getCalApi } from '@calcom/embed-react';
 import { siteMarkup } from './site-markup.js';
 import LiquidChrome from './LiquidChrome.jsx';
 import CardNav from './CardNav.jsx';
@@ -10,6 +11,20 @@ const navItems = [
   { label: 'About', description: 'Four years of thoughtful cuts and visual storytelling.', bgColor: '#24272b', textColor: '#f6f0e6', links: [{ label: 'Meet Priyanshu', href: '#about' }] },
   { label: 'Contact', description: 'Have a project in mind? Let’s talk about it.', bgColor: '#292923', textColor: '#f6f0e6', links: [{ label: 'Get in touch', href: '#contact' }] }
 ];
+const calLink = 'priyanshu-kumar-wgwdko/15min';
+const calConfig = JSON.stringify({ layout: 'month_view', useSlotsViewOnSmallScreen: 'true' });
+
+function CalEmbedSetup() {
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      const cal = await getCalApi({ namespace: '15min' });
+      if (active) cal('ui', { hideEventTypeDetails: false, layout: 'month_view' });
+    })();
+    return () => { active = false; };
+  }, []);
+  return null;
+}
 
 function CardNavMount() {
   const [mount, setMount] = useState(null);
@@ -21,7 +36,7 @@ function CardNavMount() {
     return () => document.removeEventListener('themechange', syncTheme);
   }, []);
   if (!mount) return null;
-  return createPortal(<CardNav logo="PT — PRIYANSHU TIWARY" logoAlt="Priyanshu Tiwary home" logoHref="#top" items={navItems} cta={{ label: 'Book a Meeting', href: '#contact' }} theme={theme} surface="glass" openOn="click" cardEffect="rise" accentColor="#c59d6a" cardHeight={164} maxWidth={860} intro speed={1.1} ariaLabel="Main navigation" />, mount);
+  return createPortal(<CardNav logo="PT — PRIYANSHU TIWARY" logoAlt="Priyanshu Tiwary home" logoHref="#top" items={navItems} cta={{ label: 'Book a Meeting', href: `https://cal.com/${calLink}`, target: '_blank', rel: 'noreferrer', calNamespace: '15min', calLink, calConfig }} theme={theme} surface="glass" openOn="click" cardEffect="rise" accentColor="#c59d6a" cardHeight={164} maxWidth={860} intro speed={1.1} ariaLabel="Main navigation" />, mount);
 }
 
 /** React Bits inspired soft aurora ambient layer tuned to the ivory/blue reference. */
@@ -131,5 +146,5 @@ function MusicPlayer() {
 
 export default function App() {
   useEffect(() => { document.documentElement.dataset.theme = 'dark'; }, []);
-  return <><div className="liquid-background" aria-hidden="true"><LiquidChrome color="#003fa5" speed={0.2} amplitude={0.3} frequencyX={3} frequencyY={3} detail={4} thickness={1} depth={1} roughness={0.3} exposure={1} interactive rippleStrength={1} rippleSize={1} tilt={1} intro lightMode={false} maxDevicePixelRatio={1.5} /></div><FadeContent /><PointerEffects /><PortfolioContent /><CardNavMount /><IntroOverlay /><MusicPlayer /></>;
+  return <><div className="liquid-background" aria-hidden="true"><LiquidChrome color="#003fa5" speed={0.2} amplitude={0.3} frequencyX={3} frequencyY={3} detail={4} thickness={1} depth={1} roughness={0.3} exposure={1} interactive rippleStrength={1} rippleSize={1} tilt={1} intro lightMode={false} maxDevicePixelRatio={1.5} /></div><FadeContent /><PointerEffects /><PortfolioContent /><CardNavMount /><CalEmbedSetup /><IntroOverlay /><MusicPlayer /></>;
 }
