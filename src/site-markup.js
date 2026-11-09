@@ -9,7 +9,7 @@ export const siteMarkup = String.raw`
   <main>
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-kicker"><span class="status-dot"></span> Independent video editor · India</div>
-      <div class="hero-video-layer" aria-hidden="true"><video class="hero-video" autoplay muted loop playsinline preload="none" poster=""><source src="" type="video/mp4"></video><div class="hero-video-placeholder"><span class="placeholder-mark">PT</span><span>SHOWREEL VIDEO<br>WILL BE ADDED HERE</span><span class="placeholder-timeline"><i></i></span></div></div>
+      <div class="hero-video-layer" aria-hidden="true"><iframe class="hero-video-embed" src="https://www.youtube-nocookie.com/embed/SS-t1ueq5h0?start=64&autoplay=1&mute=1&controls=0&loop=1&playlist=SS-t1ueq5h0&playsinline=1&rel=0" title="Priyanshu Tiwary showreel" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="eager"></iframe></div>
       <div class="hero-copy"><p class="eyebrow">Video editor · 4 years experience</p><h1 id="hero-title" class="intro-name">Priyanshu<br><em>Tiwary</em></h1><p class="hero-description">Short-form, long-form, music videos and rap lyric videos — edited with rhythm, clarity and a point of view.</p><div class="hero-actions"><a class="button button-dark" href="#work">Explore selected work <span aria-hidden="true">↓</span></a><a class="text-link" href="#contact">Book a conversation <span aria-hidden="true">↗</span></a></div></div>
       <div class="hero-foot"><span>SCROLL TO EXPLORE</span><span class="foot-line"></span><span>01 / 04</span></div>
     </section>
