@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { getCalApi } from '@calcom/embed-react';
 import { siteMarkup } from './site-markup.js';
@@ -141,7 +141,21 @@ function IntroOverlay() {
 
 function MusicPlayer() {
   const [playing, setPlaying] = useState(false);
-  return <aside className="music-player" aria-label="Music player demo"><button type="button" className="music-toggle" aria-label={playing ? 'Pause demo music' : 'Play demo music'} onClick={() => setPlaying((value) => !value)}><span aria-hidden="true">{playing ? 'Ⅱ' : '▶'}</span></button><div className="music-info"><strong>{playing ? 'Demo track' : 'Your soundtrack'}</strong><span>{playing ? 'Preview mode · MP3 coming soon' : 'Track coming soon'}</span></div><span className={`music-eq ${playing ? 'is-playing' : ''}`} aria-hidden="true"><i /><i /><i /><i /></span></aside>;
+  const audioRef = useRef(null);
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return undefined;
+    audio.volume = 0.24;
+    audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    return () => audio.pause();
+  }, []);
+  const togglePlayback = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (audio.paused) audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    else { audio.pause(); setPlaying(false); }
+  };
+  return <aside className="music-player" aria-label="Background music player"><audio ref={audioRef} src="/EUROS%26KECHBAS%20(Instrumental%20Version).mp3" loop preload="auto" /><button type="button" className="music-toggle" aria-label={playing ? 'Pause background music' : 'Play background music'} onClick={togglePlayback}><span aria-hidden="true">{playing ? 'Ⅱ' : '▶'}</span></button><div className="music-info"><strong>EUROS &amp; KECHBAS</strong><span>Instrumental Version · {playing ? 'Now playing' : 'Tap to play'}</span></div><span className={`music-eq ${playing ? 'is-playing' : ''}`} aria-hidden="true"><i /><i /><i /><i /></span></aside>;
 }
 
 export default function App() {
