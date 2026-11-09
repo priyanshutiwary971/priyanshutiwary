@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { siteMarkup } from './site-markup.js';
+import LiquidChrome from './LiquidChrome.jsx';
 
 /** React Bits inspired soft aurora ambient layer tuned to the ivory/blue reference. */
 function AuroraBackground() {
@@ -116,5 +117,5 @@ function MusicPlayer() {
 
 export default function App() {
   useEffect(() => { document.documentElement.dataset.theme = 'dark'; }, []);
-  return <><AuroraBackground /><FadeContent /><PointerEffects /><PortfolioContent /><IntroOverlay /><MusicPlayer /></>;
+  return <><div className="liquid-background" aria-hidden="true"><LiquidChrome color="#003fa5" speed={0.2} amplitude={0.3} frequencyX={3} frequencyY={3} detail={4} thickness={1} depth={1} roughness={0.3} exposure={1} interactive rippleStrength={1} rippleSize={1} tilt={1} intro lightMode={false} maxDevicePixelRatio={1.5} /></div><FadeContent /><PointerEffects /><PortfolioContent /><IntroOverlay /><MusicPlayer /></>;
 }
